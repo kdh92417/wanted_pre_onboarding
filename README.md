@@ -12,11 +12,14 @@ HTTP Method GET, POST, PUT, DELETE에 의한 Restful API를 설계하고 Django 
 - `api/job-vacancy`
   - GET Method: 검색기능이있는 채용공고리스트 조회
   - POST Method: 채용공고 등록
+  - testing file : `api/test/test_job_vacancy_list_create_api.py`
 
 - `api/job-vacancy/application_id`
   - GET Method: 채용공고 상세 조회
   - POST Method: 채용공고 상세 수정
   - DELETE Method: 채용공고 상세 삭제
+  - testing file : `api/test/test_job_vacancy_detail_update_delete_api.py`
 
 - `api/application`
   - POST Method: 채용공고에 지원
+  - testing file : `api/test/test_apply_job_posting.py`
