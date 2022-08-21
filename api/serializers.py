@@ -1,8 +1,12 @@
 from django.db.models import Q
 
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
-from api.models import JobVacancy
+from api.models import (
+    JobVacancy,
+    Applications
+)
 
 
 class JobVacancyCreateUpdateListSerializer(serializers.ModelSerializer):
@@ -33,3 +37,16 @@ class JobVacancyDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = JobVacancy
         exclude = ['company']
+
+
+class ApplicationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Applications
+        fields = '__all__'
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Applications.objects.all(),
+                fields=['job_vacancy', 'user']
+            )
+        ]

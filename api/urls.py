@@ -5,4 +5,5 @@ from api import views
 urlpatterns = [
     path('job-vacancy', views.JobVacancyListCreateAPI.as_view()),
     path('job-vacancy/<int:job_vacancy_id>', views.JobVacancyDetailUpdateDeleteAPI.as_view()),
+    path('application', views.ApplicationAPI.as_view()),
 ]
