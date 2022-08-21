@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models import Applications, JobVacancy
+from api.models import JobVacancy
 from api.serializers import (
     ApplicationSerializer,
     JobVacancyCreateUpdateListSerializer,
@@ -42,7 +42,7 @@ class JobVacancyDetailUpdateDeleteAPI(APIView):
             job_vacancy_object.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        except Applications.DoesNotExist as e:
+        except JobVacancy.DoesNotExist as e:
             return Response(data=str(e), status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, job_vacancy_id):
@@ -59,14 +59,17 @@ class JobVacancyDetailUpdateDeleteAPI(APIView):
                 update_job_vacancy_serializer.save()
                 return Response(data=update_job_vacancy_serializer.data, status=status.HTTP_200_OK)
 
-        except Applications.DoesNotExist as e:
+        except JobVacancy.DoesNotExist as e:
             return Response(data=str(e), status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, job_vacancy_id):
-        queryset = JobVacancy.objects.select_related('company').get(id=job_vacancy_id)
-        serializer = JobVacancyDetailSerializer(queryset)
+        try:
+            queryset = JobVacancy.objects.select_related('company').get(id=job_vacancy_id)
+            serializer = JobVacancyDetailSerializer(queryset)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        except JobVacancy.DoesNotExist as e:
+            return Response(data=str(e), status=status.HTTP_400_BAD_REQUEST)
 
 
 class ApplicationAPI(APIView):
